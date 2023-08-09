@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {validate} from "./validate";
-
+import { validate } from "./validate";
 
 const SignUp = () => {
   const [data, setData] = useState({
@@ -11,22 +10,23 @@ const SignUp = () => {
     isAccepted: false,
   });
   const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
 
-  useEffect(()=>{
+  useEffect(() => {
     setErrors(validate(data));
-  },[data])
-
-
+  }, [data, touched]);
 
   const changeHandler = (event) => {
     if (event.target.name === "isAccepted") {
-        setData({
-            ...data, [event.target.name] : event.target.checked})
-    }
-    else setData({...data,[event.target.name]: event.target.value})
+      setData({
+        ...data,
+        [event.target.name]: event.target.checked,
+      });
+    } else setData({ ...data, [event.target.name]: event.target.value });
   };
-
-  
+  const focusHandler = (event) => {
+    setTouched({ ...touched, [event.target.name]: true });
+  };
 
   return (
     <div>
@@ -39,8 +39,9 @@ const SignUp = () => {
             name='name'
             value={data.name}
             onChange={changeHandler}
+            onFocus={focusHandler}
           />
-          {errors.name && <span>{errors.name}</span>}
+          {errors.name && touched.name && <span>{errors.name}</span>}
         </div>
         <div>
           <label>Email</label>
@@ -49,8 +50,9 @@ const SignUp = () => {
             name='email'
             value={data.email}
             onChange={changeHandler}
+            onFocus={focusHandler}
           />
-          {errors.email && <span>{errors.email}</span>}
+          {errors.email && touched.email && <span>{errors.email}</span>}
         </div>
         <div>
           <label>Password</label>
@@ -59,8 +61,9 @@ const SignUp = () => {
             name='password'
             value={data.password}
             onChange={changeHandler}
+            onFocus={focusHandler}
           />
-          {errors.password && <span>{errors.password}</span>}
+          {errors.password && touched.password && <span>{errors.password}</span>}
         </div>
         <div>
           <label>Confirm Password</label>
@@ -69,8 +72,9 @@ const SignUp = () => {
             name='confirmPassword'
             value={data.confirmPassword}
             onChange={changeHandler}
+            onFocus={focusHandler}
           />
-          {errors.confirmPassword && <span>{errors.confirmPassword}</span>}
+          {errors.confirmPassword && touched.confirmPassword && <span>{errors.confirmPassword}</span>}
         </div>
         <div>
           <input
@@ -78,8 +82,9 @@ const SignUp = () => {
             name='isAccepted'
             value={data.isAccepted}
             onChange={changeHandler}
+            onFocus={focusHandler}
           />
-          {errors.isAccepted && <span>{errors.isAccepted}</span>}
+          {errors.isAccepted && touched.isAccepted && <span>{errors.isAccepted}</span>}
           <label>I accept terms of policy and privacy</label>
         </div>
 
