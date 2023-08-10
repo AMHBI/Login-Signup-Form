@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "./SignUp.module.css";
+import { Link } from "react-router-dom";
 
 import { validate } from "./validate";
 import { notify } from "./toast";
@@ -18,7 +19,7 @@ const SignUp = () => {
   const [touched, setTouched] = useState({});
 
   useEffect(() => {
-    setErrors(validate(data));
+    setErrors(validate(data, "signup"));
   }, [data, touched]);
 
   const changeHandler = (event) => {
@@ -35,7 +36,7 @@ const SignUp = () => {
   const submitHandler = (event) => {
     event.preventDefault();
     if (!Object.keys(errors).length) {
-      notify("You Signed in Succesfully", "succes");
+      notify("You Signed up succesfully", "succes");
     } else {
       notify("Data is invalid", "error");
     }
@@ -134,7 +135,7 @@ const SignUp = () => {
         </div>
 
         <div className={styles.formButtons}>
-          <a href='https://google.com'>Login</a>
+          <Link to="/login" >Login</Link>
 
           <button type='submit'>Sign Up</button>
         </div>
